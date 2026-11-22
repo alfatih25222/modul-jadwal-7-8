@@ -85,7 +85,7 @@ def _to_minutes(jam_str: str) -> int:
 
 def detect_schedule_conflict(
     schedules: list[dict[str, Any]],
-    include_time_overlap_only: bool = False,
+    include_time_overlap_only: bool = True
 ) -> list[dict[str, Any]]:
     """
     Mendeteksi bentrok jadwal berdasarkan hari, jam, ruangan, dan dosen
