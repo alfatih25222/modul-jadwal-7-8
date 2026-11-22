@@ -32,7 +32,8 @@ def test_detect_room_and_lecturer_conflicts():
 
     assert "room_conflict" in types
     assert "lecturer_conflict" in types
-    assert len(conflicts) == 2
+    assert "time_overlap" in types
+    assert len(conflicts) == 3
 
 
 def test_no_conflict_when_adjacent_or_different_day():
