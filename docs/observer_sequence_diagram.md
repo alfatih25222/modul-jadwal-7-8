@@ -18,9 +18,31 @@
 
 3. Penyebaran Notifikasi & Pencatatan Log:
    `ScheduleSubject` memanggil `update(event_type, schedule_data)` ke setiap observer yang terdaftar:
-   - `StudentObserver` mengirim notifikasi (simulasi email) ke mahasiswa terdampak dan mencatatnya ke log.
-   - `LecturerObserver` mengirim notifikasi (simulasi push) ke dosen terkait dan mencatatnya ke log.
-   - `AdminObserver` mengirim notifikasi (simulasi SMS) ke admin akademik dan mencatatnya ke log.
+- `StudentObserver` mengirim notifikasi (simulasi email) ke mahasiswa terdampak dan mencatatnya ke log.
+- `LecturerObserver` mengirim notifikasi (simulasi push) ke dosen terkait dan mencatatnya ke log.
+- `AdminObserver` mengirim notifikasi (simulasi SMS) ke admin akademik dan mencatatnya ke log.
 
 4. Selesai:
    Seluruh notifikasi tercatat di log dan perubahan jadwal selesai diproses.
+
+## Sequence Diagram (Mermaid)
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Admin as Admin / SchedulingService
+    participant Sub as ScheduleSubject
+    participant Stu as StudentObserver
+    participant Lec as LecturerObserver
+    participant Adm as AdminObserver
+    participant Log as Notification Log
+
+    Admin->>Sub: attach(StudentObserver, LecturerObserver, AdminObserver)
+    Admin->>Sub: notify("SCHEDULE_CHANGED", schedule_data)
+    Sub->>Stu: update(payload)
+    Stu->>Log: catat log (email)
+    Sub->>Lec: update(payload)
+    Lec->>Log: catat log (push)
+    Sub->>Adm: update(payload)
+    Adm->>Log: catat log (sms)
+    Sub-->>Admin: notifikasi terkirim & tercatat di log
